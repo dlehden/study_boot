@@ -1,16 +1,16 @@
 package com.mert.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.mert.dto.UserDto;
+import com.mert.model.userLIstHeader.Dat;
+import com.mert.model.userLIstHeader.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mert.model.Role;
-import com.mert.model.Task;
 import com.mert.model.User;
 import com.mert.repository.RoleRepository;
 import com.mert.repository.UserRepository;
@@ -20,15 +20,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -66,5 +63,23 @@ public class UserService {
 
     public List<User> findUserbyRole(Role role) {
         return userRepository.findByRole(role);
+    }
+
+    public Header getUserList(){
+        List<User> userList = userRepository.findAll();
+        List<UserDto> nameAndEmailList=
+                userList.stream()
+                        .map(user -> {
+                            return UserDto.builder()
+                                    .name(user.getName())
+                                    .email(user.getEmail())
+                                    .build();
+                        }).collect(Collectors.toList());
+
+        Header header = Header.builder()
+                .result(true)
+                .data(Dat.builder().contents(nameAndEmailList).build())
+                .build();
+        return header;
     }
 }

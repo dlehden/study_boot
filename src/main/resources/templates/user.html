@@ -5,16 +5,26 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>App MERT | USERS</title>
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- TOAST UI GRID 4.0-->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
+
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
     <!-- DataTables -->
     <link rel="stylesheet" href="/css/dataTables.bootstrap.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="/css/AdminLTE.min.css">
 
@@ -313,9 +323,52 @@
                     </div>
                 </div>
             </div>
+            <form id="search-form">
+                <input type ="text" id = "name">
+                <button type= "submit" id="bth-search">Search</button>
+            </form>
+            <div id = "grid"></div>
     </div>
 </div>
 <!-- ./wrapper -->
+
+<!-- TOAST UI GRID TEST-->
+<script>
+    // 웹서버에서 GRID 데이터를 가져오는 방법을 설정한다.
+    var clsData = {
+        api: {
+            readData: { url: '../api_read.html', method: 'GET' }
+        }
+    };
+
+    // DB 정보 요청
+    var dataSource =
+        {
+            api: {
+                readData: {url: '/api/get-list', method: 'GET'}
+            }
+        }
+
+    // GRID 를 생성한다.
+    var grid = new tui.Grid( {
+        el: document.getElementById('grid'),
+        columns: [
+
+            {
+                header: 'Name',
+                name: 'name',
+                editor: 'text'
+            },
+            {
+                header: 'Email',
+                name: 'email',
+                editor: 'text'
+            }
+        ],
+        data: dataSource,
+    } );
+</script>
+
 
 <!-- jQuery 2.2.3 -->
 <script src="/js/jquery-2.2.3.min.js"></script>
@@ -342,6 +395,38 @@
         });
         $('#table2').DataTable();
     });
+</script>
+<script type= "text/javascript">
+    $(document).ready(function(){
+        $("#search-form").submit(function(event){
+            alert("name1 : " + $("#name").val());
+            //alert("ABC3");
+            //event.prevetDefault();
+            go_search($("#name").val());
+        });
+
+    });
+
+    function go_search(name){
+        alert("name2 : " + name);
+        var search = {
+            name : name
+        };
+        alert(JSON.stringify(search));
+        $.ajax({
+            url:"/users/all-test",
+            type:"POST",
+            data:search,
+            success:function(data){
+                alert(data);
+            },
+            error:function(e){
+                alert("오류");
+            }
+        });
+
+        alert("ABC1111");
+    }
 </script>
 </body>
 </html>

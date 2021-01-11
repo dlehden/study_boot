@@ -32,11 +32,25 @@ public class UserController {
 	@Autowired
 	private RoleService roleService;
 
-
+	//toast ui grid test
+	@RequestMapping(value = "/all-test")
+	public ModelAndView gridTest(User search) {  //User model 로 데이터 매칭 바인딩
+		System.out.println("all-test실행");
+		System.out.println(search.getName() + "name 변수가전달됨.");
+		ModelAndView modelAndView = new ModelAndView();
+		//POINT=7 http://stackoverflow.com/questions/22364886/neither-bindingresult-nor-plain-target-object-for-bean-available-as-request-attr
+		modelAndView.addObject("users", userService.findAll());
+		modelAndView.addObject("mode", "MODE_ALL");
+		modelAndView.addObject("auth", getUser());
+		modelAndView.addObject("control", getUser().getRole().getRole());
+		modelAndView.setViewName("user");
+		return modelAndView;
+	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ModelAndView allUsers() {
 		ModelAndView modelAndView = new ModelAndView();
+		System.out.println("all실행");
 		//POINT=7 http://stackoverflow.com/questions/22364886/neither-bindingresult-nor-plain-target-object-for-bean-available-as-request-attr
 		modelAndView.addObject("users", userService.findAll());
 		modelAndView.addObject("mode", "MODE_ALL");
