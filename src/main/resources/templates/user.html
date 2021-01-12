@@ -325,7 +325,10 @@
             </div>
             <form id="search-form">
                 <input type ="text" id = "name">
-                <button type= "submit" id="bth-search">Search</button>
+                <button type = "button" onclick="go_search()" id="bth-search">Search</button> <!-- button type을 form으로 하면
+                                                                            버튼을 누른 뒤 페이지가 리로딩되어
+                                                                            검색 결과가 사라짐.
+                                                                            type을 button으로 바꿔 해결함. -->
             </form>
             <div id = "grid"></div>
     </div>
@@ -345,7 +348,7 @@
     var dataSource =
         {
             api: {
-                readData: {url: '/api/get-list', method: 'GET'}
+                readData: {url: '/api/user/get-list', method: 'GET'}
             }
         }
 
@@ -365,7 +368,7 @@
                 editor: 'text'
             }
         ],
-        data: dataSource,
+        //data: dataSource,
     } );
 </script>
 
@@ -397,35 +400,40 @@
     });
 </script>
 <script type= "text/javascript">
-    $(document).ready(function(){
+    /*$(document).ready(function(){ // 검색 버튼에서 onclick으로 go_search()를 부르게 변경
         $("#search-form").submit(function(event){
-            alert("name1 : " + $("#name").val());
+            //alert("name1 : " + $("#name").val());
             //alert("ABC3");
-            //event.prevetDefault();
+            //event.preventDefault();
             go_search($("#name").val());
         });
 
-    });
+    });*/
 
-    function go_search(name){
-        alert("name2 : " + name);
+    function go_search(){
+        var name = $("#name").val(); // 입력창에 적은 이름
+        //alert("name2 : " + name);
         var search = {
             name : name
         };
-        alert(JSON.stringify(search));
+        //alert(JSON.stringify(search));
+        var searchData;
         $.ajax({
-            url:"/users/all-test",
-            type:"POST",
+            url:"/api/user/search",
+            type:"GET",
             data:search,
+            async:false,
             success:function(data){
-                alert(data);
+                //alert(JSON.stringify(search));
+                searchData=data;
             },
             error:function(e){
                 alert("오류");
             }
         });
-
-        alert("ABC1111");
+        grid.resetData(searchData);
+        return false;
+        //alert("ABC1111");
     }
 </script>
 </body>

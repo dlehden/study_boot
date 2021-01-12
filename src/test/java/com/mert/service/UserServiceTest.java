@@ -11,8 +11,15 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void getUserList(){
-        Header resultList = userService.getUserList();
+    public void getAllUserList(){
+        Header resultList = userService.getAllUserList();
+        System.out.println(resultList);
+    }
+
+    @Test
+    public void getUserListByName(){
+        String name = "홍성현";
+        Header resultList = userService.getUserListByName(name);
         System.out.println(resultList);
     }
 }
