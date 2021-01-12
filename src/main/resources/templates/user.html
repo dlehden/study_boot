@@ -423,15 +423,12 @@
             data:search,
             async:false,
             success:function(data){
-                //alert(JSON.stringify(search));
-                searchData=data;
+                grid.resetData(data);
             },
             error:function(e){
                 alert("오류");
             }
         });
-        grid.resetData(searchData);
-        return false;
         //alert("ABC1111");
     }
 </script>
