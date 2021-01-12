@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.mert.dto.UserDto;
 import com.mert.model.userLIstHeader.Dat;
 import com.mert.model.userLIstHeader.Header;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,23 +17,24 @@ import com.mert.repository.RoleRepository;
 import com.mert.repository.UserRepository;
 
 @Service("userService")
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
         return users;
     }
 
+    public List<User> findByName(String name){
+        List<User> users = userRepository.findByName(name);
+        return users;
+    }
     public User findUser(int id) {
         return userRepository.findById(id).get();
     }
@@ -65,8 +67,17 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    public Header getUserList(){
+    public Header getAllUserList(){
         List<User> userList = userRepository.findAll();
+        return getUserList(userList);
+    }
+
+    public Header getUserListByName(String name){
+        List<User> userList = userRepository.findByName(name);
+        return getUserList(userList);
+    }
+
+    public Header getUserList(List<User> userList){
         List<UserDto> nameAndEmailList=
                 userList.stream()
                         .map(user -> {
