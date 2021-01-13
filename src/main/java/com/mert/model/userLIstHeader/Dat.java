@@ -1,4 +1,4 @@
-package com.mert.model.userLIstHeader;
+package com.mert.model.userListHeader;
 
 
 import com.mert.dto.UserDto;
