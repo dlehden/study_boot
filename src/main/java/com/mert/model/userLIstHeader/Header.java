@@ -1,14 +1,11 @@
-package com.mert.model.userLIstHeader;
+package com.mert.model.userListHeader;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.mert.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +16,6 @@ public class Header {
 
     @Column(name = "data")
     private Dat data;
+
+    private String message;
 }
