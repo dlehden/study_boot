@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -22,15 +23,16 @@ import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "user")
+@Accessors(chain = true)
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private Long id;
 	
 	@Column(name = "email")
-	@Email(message = "*Please enter a valid email adress!")
+	@Email(message = "*Please enter a valid email address!")
 	@NotEmpty(message = "*Please provide an email! This field can not be empty!")
 	private String email;
 	
@@ -54,11 +56,11 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private Set<UserTask> userTask = new HashSet<UserTask>();
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

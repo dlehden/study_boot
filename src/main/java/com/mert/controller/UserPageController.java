@@ -65,7 +65,7 @@ public class UserPageController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView updateProfile(@RequestParam int id) {
+	public ModelAndView updateProfile(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("user", userService.findUser(id));
@@ -78,7 +78,7 @@ public class UserPageController {
 
 
 	@RequestMapping(value = "/mytasks", method = RequestMethod.GET)
-	public ModelAndView showMyTask(@RequestParam int id) {
+	public ModelAndView showMyTask(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("user", userService.findUser(id));
@@ -135,7 +135,7 @@ public class UserPageController {
 	}
 
 	@RequestMapping(value = "/change_password", method = RequestMethod.GET)
-	public ModelAndView changePassword(@RequestParam int id) {
+	public ModelAndView changePassword(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("user", userService.findUser(id));

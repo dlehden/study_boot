@@ -72,7 +72,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView updateUser(@RequestParam int id) {
+	public ModelAndView updateUser(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("user", userService.findUser(id));
@@ -85,7 +85,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView deleteUser(@RequestParam int id) {
+	public ModelAndView deleteUser(@RequestParam Long id) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/users/all");
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("auth", getUser());
