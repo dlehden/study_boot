@@ -3,11 +3,12 @@ package com.mert.service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.mert.dto.GridUpdateDto;
 import com.mert.dto.UserDto;
-import com.mert.model.userLIstHeader.Dat;
-import com.mert.model.userLIstHeader.Header;
+import com.mert.model.userListHeader.Dat;
+import com.mert.model.userListHeader.Header;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import com.mert.repository.UserRepository;
 
 @Service("userService")
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -35,11 +37,11 @@ public class UserService {
         List<User> users = userRepository.findByName(name);
         return users;
     }
-    public User findUser(int id) {
+    public User findUser(Long id) {
         return userRepository.findById(id).get();
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
 
     }
@@ -78,6 +80,7 @@ public class UserService {
     }
 
     public Header getUserList(List<User> userList){
+        log.info("search!");
         List<UserDto> nameAndEmailList=
                 userList.stream()
                         .map(user -> {
@@ -92,5 +95,27 @@ public class UserService {
                 .data(Dat.builder().contents(nameAndEmailList).build())
                 .build();
         return header;
+    }
+
+    public Header updateUserList(GridUpdateDto req){
+        boolean result = true;
+        String message = null;
+        req.getUpdatedRows().forEach(userDto->{
+            Optional<User> opt = userRepository.findById(userDto.getId());
+            opt.ifPresent(user->{
+                user.setName(userDto.getName());
+                user.setEmail(userDto.getEmail());
+                User newUser = userRepository.save(user);
+
+                // 수정 제대로 됐는지 검증 절차 필요
+                /*if(newUser.getName() != userDto.getName() || newUser.getEmail()!=userDto.getEmail()) {
+
+                }*/
+            });
+        });
+        return Header.builder()
+                .result(result)
+                .message(message)
+                .build();
     }
 }

@@ -324,12 +324,14 @@
                 </div>
             </div>
             <input type ="text" id = "name">
-            <button type = "button" onclick="go_search()" id="bth-search">Search</button>
+            <button type = "button" onclick="grid_search()" id="btn-search">Search</button>
                                                                             <!-- button type을 form으로 하면
                                                                             버튼을 누른 뒤 페이지가 리로딩되어
                                                                             검색 결과가 사라짐.
                                                                             type을 button으로 바꿔 해결함. -->
+
             <div id = "grid"></div>
+            <button type = "button" onclick="grid_save()" id="btn-save">Save</button>
     </div>
 </div>
 <!-- ./wrapper -->
@@ -347,15 +349,28 @@
     var dataSource =
         {
             api: {
-                readData: {url: '/api/user/get-list', method: 'GET'}
-            }
-        }
+                readData: {
+                    url: '/api/user/list',
+                    method: 'GET'
+                },
+
+                updateData: {
+                    url: '/api/user/list',
+                    method: 'PUT',
+                },
+            },
+            initialRequest : false,
+            contentType: "application/json"
+        };
 
     // GRID 를 생성한다.
     var grid = new tui.Grid( {
         el: document.getElementById('grid'),
         columns: [
-
+            {
+                header: 'id',
+                name: 'id',
+            },
             {
                 header: 'Name',
                 name: 'name',
@@ -367,7 +382,7 @@
                 editor: 'text'
             }
         ],
-        //data: dataSource,
+        data: dataSource,
     } );
 </script>
 
@@ -409,7 +424,7 @@
 
     });*/
 
-    function go_search(){
+    function grid_search(){
         var name = $("#name").val(); // 입력창에 적은 이름
         //alert("name2 : " + name);
         var search = {
@@ -430,6 +445,10 @@
             }
         });
         //alert("ABC1111");
+    }
+
+    function grid_save(){
+        grid.request('updateData');
     }
 </script>
 </body>
