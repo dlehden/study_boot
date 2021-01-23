@@ -1,9 +1,10 @@
 package com.mert.service;
 
-import com.mert.dto.GridUpdateDto;
-import com.mert.dto.UserDto;
-import com.mert.model.userListHeader.Header;
-import com.mert.repository.UserRepository;
+import com.mert.dto.gridDto.GridUpdateDto;
+import com.mert.dto.userDto.UserDto;
+import com.mert.model.userModel.userListHeader.Header;
+import com.mert.repository.userInfoRepository.UserRepository;
+import com.mert.service.userService.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @SpringBootTest

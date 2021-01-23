@@ -1,0 +1,23 @@
+/*role table insert*/
+INSERT INTO `role` VALUES (1,'ADMIN');
+INSERT INTO `role` VALUES (2,'USER');
+
+/*user table insert*/
+INSERT INTO user VALUES (1, 1, 'sunga201@naver.com', '홍성현', '', 1);
+/*liner schedule table insert*/
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(1, 'KMTC', 'VSL_NAME1', 'KRPUS', 'HKHKG', '2021-01-01 14:33', '2021-01-04 16:30');
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(2, 'KMTC', 'VSL_NAME2', 'KRPUS', 'HKHKG', '2021-01-01 14:33', '2021-01-04 16:30');
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(3, 'KMTC', 'VSL_NAME3', 'KRPUS', 'HKHKG', '2021-01-01 14:33', '2021-01-04 16:30');
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(4, 'DJSC', 'VSL_NAME1', 'KRPUS', 'HKHKG', '2021-01-01 11:33', '2021-01-04 16:30');
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(5, 'DJSC', 'VSL_NAME2', 'KRPUS', 'HKHKG', '2021-01-01 07:33', '2021-01-04 16:30');
+INSERT INTO liner_schedule(ID, LINER_CODE, VESSEL_NAME, POL, POD, ETD, ETA) VALUES(6, 'DJSC', 'VSL_NAME3', 'KRPUS', 'HKHKG', '2021-01-01 05:33', '2021-01-04 16:30');
+
+/*common code table insert*/
+INSERT INTO common_code VALUES(1, 'KR', 'KRKIN')
+INSERT INTO common_code VALUES(2, 'KR', 'KRPUS')
+INSERT INTO common_code VALUES(3, 'CN', 'CNSHA')
+
+/*liner code table insert*/
+INSERT INTO liner_code VALUES(1, 'KMTC', 'KRBUS', 'KRPUS')
+INSERT INTO liner_code VALUES(2, 'KMTC', 'KRKAN', 'KRKIN')
+INSERT INTO liner_code VALUES(3, 'KMTC', 'SHA', 'CNSHA')
