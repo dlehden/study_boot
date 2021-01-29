@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
     <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
 
+    <!-- TOAST UI CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+
+    <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
@@ -38,6 +48,25 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery 2.2.3 -->
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- DataTables -->
+
+    <!-- SlimScroll -->
+    <script src="/js/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="/js/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/js/demo.js"></script>
+    <!-- page script -->
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -79,7 +108,7 @@
                                     <small><span class="hidden-xs" th:utext="${auth.email}"></span></small>
                                 </p>
                             </li>
-                            <!-- Menu Body --
+                            <!-- Menu Body -->
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
@@ -332,19 +361,21 @@
 
             <div id = "grid"></div>
             <button type = "button" onclick="grid_save()" id="btn-save">Save</button>
+
+            <div id="menu">
+      <span id="menu-navi">
+        <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+        </button>
+      </span>
+                <span id="renderRange" class="render-range"></span>
+            </div>
+            <div id="calendar" style="height: 800px;"></div>
     </div>
 </div>
 <!-- ./wrapper -->
 
-<!-- TOAST UI GRID TEST-->
+<!-- TOAST UI GRID-->
 <script>
-    // 웹서버에서 GRID 데이터를 가져오는 방법을 설정한다.
-    var clsData = {
-        api: {
-            readData: { url: '../api_read.html', method: 'GET' }
-        }
-    };
-
     // DB 정보 요청
     var dataSource =
         {
@@ -386,25 +417,72 @@
     } );
 </script>
 
+<!-- TOAST UI CALENDAR-->
+<script>
+    var calendar = new tui.Calendar('#calendar', {
+        defaultView: 'month',
+        useCreationPopup: true,
+        useDetailPopup: true
+    });
 
-<!-- jQuery 2.2.3 -->
-<script src="/js/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="/js/bootstrap.min.js"></script>
-<!-- DataTables -->
+    calendar.createSchedules([
+        {
+            id: '1',
+            calendarId: '1',
+            title: 'my schedule',
+            category: 'time',
+            start: "2021-01-01T23:33:00",
+            end: "2021-01-05T01:30:00"
+        },
+        {
+            id: '2',
+            calendarId: '1',
+            title: 'second schedule',
+            category: 'time',
+            dueDateClass: '',
+            start: '2021-01-18T17:30:00+09:00',
+            end: '2021-01-19T17:31:00+09:00'
+        }
+    ]);
 
-<!-- SlimScroll -->
-<script src="/js/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="/js/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/js/demo.js"></script>
-<!-- page script -->
-<script src="/js/jquery.dataTables.min.js"></script>
-<script src="/js/dataTables.bootstrap.min.js"></script>
-<script src="/js/bootstrap-select.min.js"></script>
+    $(document).ready(function(){
+        $.ajax({
+            url:"/api/liner-schedule",
+            type:"GET",
+            async:false,
+            success:function(data){
+                console.log(data);
+                calendar.createSchedules(data);
+            },
+            error:function(e){
+                console.log(e);
+                alert("스케줄 오류");
+            }
+        });
+    });
+
+
+    /*calendar.createSchedules([ // 캘린더 테스트
+        {
+            id: '1',
+            calendarId: 'Major Lecture',
+            title: 'my schedule',
+            category: 'time',
+            start: '2021-01-18T22:30:00+09:00',
+            end: '2021-01-19T02:30:00+09:00'
+        },
+        {
+            id: '2',
+            calendarId: '1',
+            title: 'Minor Lecture',
+            category: 'time',
+            start: '2021-01-18T17:30:00+09:00',
+            end: '2021-01-19T17:31:00+09:00',
+            isReadOnly: true    // schedule is read-only
+        }
+    ]);*/
+</script>
+
 <script>
     $(function () {
         $('#example1').DataTable({
@@ -414,16 +492,6 @@
     });
 </script>
 <script type= "text/javascript">
-    /*$(document).ready(function(){ // 검색 버튼에서 onclick으로 go_search()를 부르게 변경
-        $("#search-form").submit(function(event){
-            //alert("name1 : " + $("#name").val());
-            //alert("ABC3");
-            //event.preventDefault();
-            go_search($("#name").val());
-        });
-
-    });*/
-
     function grid_search(){
         var name = $("#name").val(); // 입력창에 적은 이름
         //alert("name2 : " + name);
